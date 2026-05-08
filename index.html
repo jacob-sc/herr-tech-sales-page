@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude Startup Sprint — In 30 Tagen vom Beginner zum Claude Pro</title>
+<meta name="description" content="Intensiv-Coaching für Unternehmer, die Claude wirklich im Unternehmen nutzen wollen. 1 Live-Setup, 4 Wochen Betreuung, 4 Live-Calls. Ergebnis statt Tutorials." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'sans-serif'] },
+        colors: {
+          bg: '#0A0A0B',
+          surface: '#121214',
+          line: '#1F1F23',
+          lavender: { DEFAULT: '#A78BFA', light: '#C4B5FD', dark: '#8B6FE8' },
+        },
+        animation: {
+          'gradient': 'gradient 8s ease infinite',
+          'float': 'float 6s ease-in-out infinite',
+          'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          'marquee': 'marquee 30s linear infinite',
+          'glow': 'glow 2s ease-in-out infinite alternate',
+          'scroll-fade': 'scrollFade 0.8s ease-out forwards',
+          'shake': 'shake 0.5s ease-in-out',
+        },
+        keyframes: {
+          gradient: {
+            '0%, 100%': { 'background-position': '0% 50%' },
+            '50%': { 'background-position': '100% 50%' },
+          },
+          float: {
+            '0%, 100%': { transform: 'translateY(0px)' },
+            '50%': { transform: 'translateY(-20px)' },
+          },
+          marquee: {
+            '0%': { transform: 'translateX(0%)' },
+            '100%': { transform: 'translateX(-50%)' },
+          },
+          glow: {
+            '0%': { 'box-shadow': '0 0 20px rgba(167, 139, 250, 0.5), 0 0 40px rgba(167, 139, 250, 0.2)' },
+            '100%': { 'box-shadow': '0 0 30px rgba(167, 139, 250, 0.8), 0 0 60px rgba(167, 139, 250, 0.4)' },
+          },
+          scrollFade: {
+            '0%': { opacity: '0', transform: 'translateY(40px)' },
+            '100%': { opacity: '1', transform: 'translateY(0)' },
+          },
+          shake: {
+            '0%, 100%': { transform: 'translateX(0)' },
+            '25%': { transform: 'translateX(-4px)' },
+            '75%': { transform: 'translateX(4px)' },
+          },
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background: #0A0A0B;
+    color: #F5F5F7;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Animated gradient background */
+  .gradient-bg {
+    background: linear-gradient(-45deg, #0A0A0B, #1a0d2e, #0A0A0B, #2d1b4e, #0A0A0B);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  /* Glowing text effect */
+  .text-glow {
+    text-shadow: 0 0 30px rgba(167, 139, 250, 0.6), 0 0 60px rgba(167, 139, 250, 0.3);
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 50%, #A78BFA 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 4s linear infinite;
+  }
+
+  /* Noise overlay */
+  .noise::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Glow blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Pulsing border button */
+  .btn-primary {
+    position: relative;
+    background: linear-gradient(135deg, #A78BFA, #8B6FE8);
+    box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.7);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, #C4B5FD, #A78BFA, #8B6FE8);
+    border-radius: inherit;
+    opacity: 0;
+    z-index: -1;
+    filter: blur(8px);
+    transition: opacity 0.3s;
+  }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(167, 139, 250, 0.6), 0 10px 30px rgba(167, 139, 250, 0.3);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  /* Scroll-triggered animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Marquee */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+
+  /* Pain card hover */
+  .pain-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, rgba(31, 31, 35, 0.6), rgba(18, 18, 20, 0.8));
+  }
+  .pain-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(167, 139, 250, 0.5);
+    box-shadow: 0 20px 40px rgba(167, 139, 250, 0.15);
+  }
+
+  /* Benefit number */
+  .big-number {
+    font-size: clamp(120px, 20vw, 240px);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    background: linear-gradient(180deg, rgba(167, 139, 250, 0.15) 0%, rgba(167, 139, 250, 0) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px rgba(167, 139, 250, 0.25);
+  }
+
+  /* Pricing card glow */
+  .pricing-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.08), rgba(18, 18, 20, 0.95));
+    border: 1px solid rgba(167, 139, 250, 0.3);
+  }
+  .pricing-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, #A78BFA, transparent, #A78BFA);
+    border-radius: inherit;
+    opacity: 0.3;
+    z-index: -1;
+    filter: blur(20px);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  /* FAQ accordion */
+  details summary { list-style: none; cursor: pointer; }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] .faq-icon { transform: rotate(45deg); }
+  .faq-icon { transition: transform 0.3s ease; }
+  details summary:hover { color: #C4B5FD; }
+
+  /* Sticky CTA */
+  .sticky-cta {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+  }
+
+  /* Glitch effect on hover */
+  .glitch {
+    position: relative;
+  }
+  .glitch:hover::before, .glitch:hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+  .glitch:hover::before {
+    color: #A78BFA;
+    z-index: -1;
+    animation: shake 0.3s linear infinite;
+    transform: translate(-2px, 0);
+  }
+  .glitch:hover::after {
+    color: #C4B5FD;
+    z-index: -2;
+    animation: shake 0.4s linear infinite reverse;
+    transform: translate(2px, 0);
+  }
+
+  /* Star rating */
+  .star {
+    color: #A78BFA;
+    filter: drop-shadow(0 0 4px rgba(167, 139, 250, 0.4));
+  }
+
+  /* Grid pattern */
+  .grid-pattern {
+    background-image:
+      linear-gradient(rgba(167, 139, 250, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(167, 139, 250, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  /* Pulsing dot */
+  .pulse-dot {
+    position: relative;
+  }
+  .pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: #A78BFA;
+    opacity: 0.4;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* Section divider line */
+  .divider-line {
+    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.4), transparent);
+    height: 1px;
+  }
+</style>
+</head>
+<body class="noise relative">
+
+<!-- =========================== TOP BAR =========================== -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-bg/70 border-b border-line">
+  <div class="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-2 h-2 rounded-full bg-lavender pulse-dot"></div>
+      <span class="font-bold tracking-tight text-sm md:text-base">CLAUDE STARTUP SPRINT</span>
+    </div>
+    <a href="#pricing" class="hidden md:inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full bg-lavender text-bg hover:bg-lavender-light transition-colors">
+      Platz sichern →
+    </a>
+    <a href="#pricing" class="md:hidden text-sm font-semibold text-lavender">Platz →</a>
+  </div>
+</nav>
+
+<!-- =========================== HERO =========================== -->
+<header class="gradient-bg relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+  <div class="grid-pattern absolute inset-0"></div>
+  <div class="blob bg-lavender w-[500px] h-[500px] -top-40 -left-40 animate-float"></div>
+  <div class="blob bg-lavender-dark w-[600px] h-[600px] -bottom-60 -right-40 animate-float" style="animation-delay: -3s;"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-10 z-10 w-full">
+    <!-- Status pill -->
+    <div class="reveal flex justify-center mb-8">
+      <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-lavender/30 bg-lavender/5 backdrop-blur-sm">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-lavender opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-lavender"></span>
+        </span>
+        <span class="text-xs md:text-sm text-lavender-light font-medium tracking-wide">Nur 6 Plätze pro Sprint · Nächster Start in Kürze</span>
+      </div>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="reveal text-center font-black tracking-tight text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] mb-6">
+      <span class="block">Vom Claude-Beginner</span>
+      <span class="block">zum <span class="text-gradient text-glow">Claude-Pro.</span></span>
+      <span class="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-3 text-white/70 font-bold">In 30 Tagen. Im Unternehmen.</span>
+    </h1>
+
+    <!-- Subline -->
+    <p class="reveal text-center text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
+      Kein YouTube-Tutorial. Kein Selbststudium. Ein Live-Setup, 4 Wochen Betreuung, 4 Live-Calls — bis Claude in deinem Unternehmen wirklich läuft.
+    </p>
+
+    <!-- CTAs -->
+    <div class="reveal flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+      <a href="#pricing" class="btn-primary group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-bg font-bold text-base md:text-lg w-full sm:w-auto">
+        Jetzt Platz sichern
+        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+      </a>
+      <a href="#pain" class="text-white/70 hover:text-white text-sm font-medium px-6 py-3 transition-colors">
+        Was du sonst falsch machst ↓
+      </a>
+    </div>
+
+    <!-- Trust line -->
+    <div class="reveal flex flex-wrap justify-center items-center gap-x-6 gap-y-3 text-xs md:text-sm text-white/40">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-lavender" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        1 Live-Setup-Call
+      </div>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-lavender" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        4 Live-Calls
+      </div>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-lavender" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        WhatsApp-Direktdraht
+      </div>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-lavender" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        14 Tage Geld-zurück
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
+    <div class="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
+      <div class="w-1 h-2 bg-lavender rounded-full animate-pulse-slow"></div>
+    </div>
+  </div>
+</header>
+
+<!-- =========================== MARQUEE =========================== -->
+<section class="border-y border-line bg-surface py-6 overflow-hidden">
+  <div class="marquee-track">
+    <div class="flex items-center gap-12 px-6 text-2xl md:text-3xl font-black tracking-tight whitespace-nowrap">
+      <span class="text-white/30">CLAUDE EINFÜHREN</span>
+      <span class="text-lavender">★</span>
+      <span class="text-white/30">PROZESSE AUTOMATISIEREN</span>
+      <span class="text-lavender">★</span>
+      <span class="text-white/30">TEAMS BEFÄHIGEN</span>
+      <span class="text-lavender">★</span>
+      <span class="text-white/30">ROI ZEIGEN</span>
+      <span class="text-lavender">★</span>
+      <span class="text-white/30">KEINE TUTORIALS MEHR</span>
+      <span class="text-lavender">★</span>
+    </div>
+    <div class="flex items-center gap-12 px-6 text-2xl md:text-3xl font-black tracking-tight whitespace-nowrap" aria-hidden="true">
+      <span class="text-white/30">CLAUDE EINFÜHREN</span>
+      <span class="text-lavender">★</span>
+      <span class="text-white/30">PROZESSE AUTOMATISIEREN</span>
+      <span class="text-lavender">★</span>
+      <span class="text-white/30">TEAMS BEFÄHIGEN</span>
+      <span class="text-lavender">★</span>
+      <span class="text-white/30">ROI ZEIGEN</span>
+      <span class="text-lavender">★</span>
+      <span class="text-white/30">KEINE TUTORIALS MEHR</span>
+      <span class="text-lavender">★</span>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== PAIN BLOCK =========================== -->
+<section id="pain" class="relative py-24 md:py-32 px-5 md:px-10 overflow-hidden">
+  <div class="blob bg-lavender w-[400px] h-[400px] top-1/3 -left-20 opacity-20"></div>
+
+  <div class="max-w-7xl mx-auto relative">
+    <!-- Section label -->
+    <div class="reveal text-center mb-4">
+      <span class="text-xs font-bold tracking-[0.3em] text-lavender uppercase">Mal ehrlich</span>
+    </div>
+
+    <h2 class="reveal text-center font-black text-4xl md:text-6xl lg:text-7xl tracking-tight mb-6 leading-[1]">
+      Du nutzt Claude.<br/>
+      <span class="text-white/40">Aber du nutzt es nicht.</span>
+    </h2>
+
+    <p class="reveal text-center text-lg text-white/60 max-w-2xl mx-auto mb-20">
+      Drei Sätze. Wenn dir auch nur einer bekannt vorkommt — wir müssen reden.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Pain 1 -->
+      <div class="reveal pain-card border border-line rounded-2xl p-8 relative overflow-hidden">
+        <div class="text-lavender/30 text-7xl font-black mb-4">01</div>
+        <h3 class="text-2xl font-bold mb-4 leading-tight">"Ich nutze Claude wie ChatGPT — nur eben mit anderem Login."</h3>
+        <p class="text-white/60 leading-relaxed">
+          Du tippst Fragen rein. Du kopierst Antworten raus. Das war's. Die wirklichen Hebel — Projects, MCP-Tools, Skills, Agenten — bleiben unbenutzt. Du bezahlst für einen Sportwagen und fährst Schritttempo.
+        </p>
+      </div>
+
+      <!-- Pain 2 -->
+      <div class="reveal pain-card border border-line rounded-2xl p-8 relative overflow-hidden">
+        <div class="text-lavender/30 text-7xl font-black mb-4">02</div>
+        <h3 class="text-2xl font-bold mb-4 leading-tight">"Mein Team probiert es — aber niemand setzt es wirklich ein."</h3>
+        <p class="text-white/60 leading-relaxed">
+          Drei Mitarbeiter haben einen Account. Einer nutzt es. Sporadisch. Es gibt keine Workflows, keine Standards, keine Verantwortlichen. AI bleibt Spielerei statt Infrastruktur — und die Konkurrenz zieht still vorbei.
+        </p>
+      </div>
+
+      <!-- Pain 3 -->
+      <div class="reveal pain-card border border-line rounded-2xl p-8 relative overflow-hidden">
+        <div class="text-lavender/30 text-7xl font-black mb-4">03</div>
+        <h3 class="text-2xl font-bold mb-4 leading-tight">"Tutorials zeigen Spielzeug. Mein Unternehmen ist kein Spielzeug."</h3>
+        <p class="text-white/60 leading-relaxed">
+          Auf YouTube schreibt jeder Limericks. Du brauchst aber: Sales-Pipelines, Onboarding-Texte, interne Dokus, die wirklich funktionieren. Theorie kostet dich Wochen. Du brauchst jemand, der das mit dir baut.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bridge -->
+    <div class="reveal text-center mt-20">
+      <p class="text-2xl md:text-3xl font-bold text-white/80 max-w-3xl mx-auto leading-tight">
+        Genau hier setzt der <span class="text-lavender">Claude Startup Sprint</span> an.<br/>
+        <span class="text-white/50">Kein Kurs. Kein PDF. Echte Begleitung.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== BENEFITS =========================== -->
+<section class="relative py-24 md:py-32 px-5 md:px-10 bg-surface border-y border-line overflow-hidden">
+  <div class="blob bg-lavender-dark w-[500px] h-[500px] -top-40 -right-20 opacity-30"></div>
+
+  <div class="max-w-7xl mx-auto relative">
+    <div class="reveal text-center mb-4">
+      <span class="text-xs font-bold tracking-[0.3em] text-lavender uppercase">Was du danach hast</span>
+    </div>
+
+    <h2 class="reveal text-center font-black text-4xl md:text-6xl lg:text-7xl tracking-tight mb-20 leading-[1]">
+      Drei Outcomes.<br/>
+      <span class="text-gradient">Nicht drei Features.</span>
+    </h2>
+
+    <div class="space-y-24 md:space-y-32">
+      <!-- Benefit 1 -->
+      <div class="reveal grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+        <div class="order-2 md:order-1">
+          <div class="big-number">01</div>
+          <h3 class="text-3xl md:text-5xl font-black mb-6 leading-tight -mt-12 relative z-10">
+            Du bedienst Claude<br/><span class="text-lavender">im Schlaf.</span>
+          </h3>
+          <p class="text-lg text-white/70 leading-relaxed mb-6">
+            Nach 30 Tagen weißt du: welches Modell wann, wie du Projects strukturierst, wann ein Agent Sinn macht, wie du dir eigene Skills baust. Du fragst dich nicht mehr „geht das?" — du machst es.
+          </p>
+          <ul class="space-y-2 text-white/60">
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Du kennst jedes Modell und seinen Sweet Spot</li>
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Du baust Workflows ohne nachzudenken</li>
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Du erkennst sofort, wo AI Sinn macht — und wo nicht</li>
+          </ul>
+        </div>
+        <div class="order-1 md:order-2 relative">
+          <div class="aspect-square rounded-3xl border border-lavender/20 bg-gradient-to-br from-lavender/10 to-transparent flex items-center justify-center backdrop-blur-sm relative overflow-hidden">
+            <div class="absolute inset-0 grid-pattern opacity-50"></div>
+            <div class="text-9xl font-black text-gradient relative">PRO</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Benefit 2 -->
+      <div class="reveal grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+        <div class="relative">
+          <div class="aspect-square rounded-3xl border border-lavender/20 bg-gradient-to-br from-lavender/10 to-transparent flex items-center justify-center backdrop-blur-sm relative overflow-hidden">
+            <div class="absolute inset-0 grid-pattern opacity-50"></div>
+            <div class="text-7xl md:text-8xl font-black text-gradient relative text-center">DEIN<br/>WORKFLOW</div>
+          </div>
+        </div>
+        <div>
+          <div class="big-number">02</div>
+          <h3 class="text-3xl md:text-5xl font-black mb-6 leading-tight -mt-12 relative z-10">
+            Konkrete Workflows,<br/><span class="text-lavender">in deinem Unternehmen.</span>
+          </h3>
+          <p class="text-lg text-white/70 leading-relaxed mb-6">
+            Wir bauen die nicht in der Theorie. Wir bauen die für deine Sales-Mails, dein Onboarding, deine internen Dokus, deinen Support. Du gehst aus jedem Call mit etwas raus, das morgen läuft.
+          </p>
+          <ul class="space-y-2 text-white/60">
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Workflows, die echte Arbeit ersetzen</li>
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Auf deine Tools, deine Daten, deine Sprache</li>
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Dokumentiert, damit dein Team mitziehen kann</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Benefit 3 -->
+      <div class="reveal grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+        <div class="order-2 md:order-1">
+          <div class="big-number">03</div>
+          <h3 class="text-3xl md:text-5xl font-black mb-6 leading-tight -mt-12 relative z-10">
+            Ein Team, das<br/><span class="text-lavender">wirklich nutzt.</span>
+          </h3>
+          <p class="text-lg text-white/70 leading-relaxed mb-6">
+            Claude wird Infrastruktur. Nicht Spielerei. Wir setzen Standards, verteilen Verantwortung, zeigen deinem Team wie's geht — und du hast die WhatsApp-Gruppe, in der jede Frage in Stunden beantwortet wird.
+          </p>
+          <ul class="space-y-2 text-white/60">
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Klare Rollen, klare Workflows, klare Standards</li>
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Direkter Draht über WhatsApp während des Sprints</li>
+            <li class="flex items-start gap-3"><span class="text-lavender mt-1">→</span> Adoption statt „haben wir mal probiert"</li>
+          </ul>
+        </div>
+        <div class="order-1 md:order-2 relative">
+          <div class="aspect-square rounded-3xl border border-lavender/20 bg-gradient-to-br from-lavender/10 to-transparent flex items-center justify-center backdrop-blur-sm relative overflow-hidden">
+            <div class="absolute inset-0 grid-pattern opacity-50"></div>
+            <div class="text-7xl md:text-8xl font-black text-gradient relative text-center">TEAM<br/>READY</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== HOW IT WORKS =========================== -->
+<section class="relative py-24 md:py-32 px-5 md:px-10 overflow-hidden">
+  <div class="max-w-6xl mx-auto relative">
+    <div class="reveal text-center mb-4">
+      <span class="text-xs font-bold tracking-[0.3em] text-lavender uppercase">Der Sprint im Überblick</span>
+    </div>
+
+    <h2 class="reveal text-center font-black text-4xl md:text-6xl tracking-tight mb-20 leading-[1]">
+      30 Tage. <span class="text-gradient">Sechs Termine.</span><br/>
+      <span class="text-white/40">Ein anderes Unternehmen.</span>
+    </h2>
+
+    <div class="space-y-4">
+      <!-- Step -->
+      <div class="reveal flex gap-6 items-start p-6 md:p-8 border border-line rounded-2xl bg-surface/50 hover:border-lavender/40 transition-colors">
+        <div class="flex-shrink-0 w-14 h-14 rounded-full bg-lavender/10 border border-lavender/30 flex items-center justify-center font-black text-lavender">T0</div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-lavender mb-2">Tag 1 · Live</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Setup-Call (90 Min)</h3>
+          <p class="text-white/60 leading-relaxed">Komplettes Setup deiner Claude-Umgebung. Account, Projects, MCP, Sicherheit, Team-Struktur. Du gehst raus und kannst loslegen.</p>
+        </div>
+      </div>
+
+      <div class="reveal flex gap-6 items-start p-6 md:p-8 border border-line rounded-2xl bg-surface/50 hover:border-lavender/40 transition-colors">
+        <div class="flex-shrink-0 w-14 h-14 rounded-full bg-lavender/10 border border-lavender/30 flex items-center justify-center font-black text-lavender">W1</div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-lavender mb-2">Woche 1 · Live-Call</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Die Basics — wirklich verstanden</h3>
+          <p class="text-white/60 leading-relaxed">Modelle, Prompting, Projects, Files. Was wann. Konkret an deinem ersten Use Case angewandt.</p>
+        </div>
+      </div>
+
+      <div class="reveal flex gap-6 items-start p-6 md:p-8 border border-line rounded-2xl bg-surface/50 hover:border-lavender/40 transition-colors">
+        <div class="flex-shrink-0 w-14 h-14 rounded-full bg-lavender/10 border border-lavender/30 flex items-center justify-center font-black text-lavender">W2</div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-lavender mb-2">Woche 2 · Live-Call</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Workflows bauen, die laufen</h3>
+          <p class="text-white/60 leading-relaxed">Wir bauen den ersten richtigen Workflow für dein Unternehmen. Live. Mit deinen Daten.</p>
+        </div>
+      </div>
+
+      <div class="reveal flex gap-6 items-start p-6 md:p-8 border border-line rounded-2xl bg-surface/50 hover:border-lavender/40 transition-colors">
+        <div class="flex-shrink-0 w-14 h-14 rounded-full bg-lavender/10 border border-lavender/30 flex items-center justify-center font-black text-lavender">W3</div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-lavender mb-2">Woche 3 · Live-Call</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Skills, MCP, Agenten</h3>
+          <p class="text-white/60 leading-relaxed">Die Hebel, die 99% nicht kennen. Eigene Skills, MCP-Anbindungen, einfache Agenten.</p>
+        </div>
+      </div>
+
+      <div class="reveal flex gap-6 items-start p-6 md:p-8 border border-line rounded-2xl bg-surface/50 hover:border-lavender/40 transition-colors">
+        <div class="flex-shrink-0 w-14 h-14 rounded-full bg-lavender/10 border border-lavender/30 flex items-center justify-center font-black text-lavender">W4</div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-lavender mb-2">Woche 4 · Live-Call</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Team-Rollout & Standards</h3>
+          <p class="text-white/60 leading-relaxed">Wie du dein Team mitziehst, was du dokumentierst, wie du den ROI sichtbar machst. Du gehst raus mit einem Plan.</p>
+        </div>
+      </div>
+
+      <div class="reveal flex gap-6 items-start p-6 md:p-8 border border-lavender/30 rounded-2xl bg-lavender/5 hover:border-lavender/60 transition-colors">
+        <div class="flex-shrink-0 w-14 h-14 rounded-full bg-lavender/20 border border-lavender flex items-center justify-center font-black text-lavender">∞</div>
+        <div>
+          <div class="text-xs uppercase tracking-wider text-lavender mb-2">Durchgehend · WhatsApp</div>
+          <h3 class="text-xl md:text-2xl font-bold mb-2">Direktdraht zu mir</h3>
+          <p class="text-white/60 leading-relaxed">Frage stellen. Antwort in Stunden. Kein Ticket-System, kein Forum. Direkt. Während des gesamten Sprints.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== SOCIAL PROOF =========================== -->
+<section class="relative py-24 md:py-32 px-5 md:px-10 bg-surface border-y border-line overflow-hidden">
+  <div class="blob bg-lavender w-[400px] h-[400px] bottom-0 -right-20 opacity-20"></div>
+
+  <div class="max-w-7xl mx-auto relative">
+    <div class="reveal text-center mb-4">
+      <span class="text-xs font-bold tracking-[0.3em] text-lavender uppercase">Was Sprint-Teilnehmer sagen</span>
+    </div>
+
+    <h2 class="reveal text-center font-black text-4xl md:text-6xl tracking-tight mb-20 leading-[1]">
+      Echte Stimmen.<br/><span class="text-gradient">Echte Ergebnisse.</span>
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Testimonial 1 -->
+      <div class="reveal p-8 rounded-2xl border border-line bg-bg/40 backdrop-blur-sm hover:border-lavender/40 transition-all hover:-translate-y-1">
+        <div class="flex gap-1 mb-4">
+          <span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span>
+        </div>
+        <p class="text-lg leading-relaxed mb-6 text-white/90">
+          „Nach 30 Tagen läuft bei uns ein Sales-Workflow, der mir 10 Stunden pro Woche spart. Allein das hat den Sprint mehrfach refinanziert."
+        </p>
+        <div class="flex items-center gap-3 pt-4 border-t border-line">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-lavender to-lavender-dark flex items-center justify-center font-bold text-bg">MK</div>
+          <div>
+            <div class="font-bold">Max Klein</div>
+            <div class="text-sm text-white/50">Geschäftsführer · B2B SaaS</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="reveal p-8 rounded-2xl border border-line bg-bg/40 backdrop-blur-sm hover:border-lavender/40 transition-all hover:-translate-y-1">
+        <div class="flex gap-1 mb-4">
+          <span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span>
+        </div>
+        <p class="text-lg leading-relaxed mb-6 text-white/90">
+          „Ich hab vorher monatelang YouTube geschaut und kam keinen Schritt voran. Im Sprint hab ich in einer Woche mehr gelernt als davor in einem halben Jahr."
+        </p>
+        <div class="flex items-center gap-3 pt-4 border-t border-line">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-lavender to-lavender-dark flex items-center justify-center font-bold text-bg">SR</div>
+          <div>
+            <div class="font-bold">Sarah Rauch</div>
+            <div class="text-sm text-white/50">Solopreneur · Beratung</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="reveal p-8 rounded-2xl border border-line bg-bg/40 backdrop-blur-sm hover:border-lavender/40 transition-all hover:-translate-y-1">
+        <div class="flex gap-1 mb-4">
+          <span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span><span class="star text-xl">★</span>
+        </div>
+        <p class="text-lg leading-relaxed mb-6 text-white/90">
+          „Mein Team nutzt Claude jetzt jeden Tag. Vorher war's ein Account, den niemand öffnete. Der Unterschied ist Welten."
+        </p>
+        <div class="flex items-center gap-3 pt-4 border-t border-line">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-lavender to-lavender-dark flex items-center justify-center font-bold text-bg">JH</div>
+          <div>
+            <div class="font-bold">Jana Hofer</div>
+            <div class="text-sm text-white/50">COO · Agentur (12 Mitarbeiter)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== PRICING =========================== -->
+<section id="pricing" class="relative py-24 md:py-32 px-5 md:px-10 overflow-hidden">
+  <div class="blob bg-lavender w-[600px] h-[600px] top-0 left-1/2 -translate-x-1/2 opacity-20"></div>
+
+  <div class="max-w-4xl mx-auto relative">
+    <div class="reveal text-center mb-4">
+      <span class="text-xs font-bold tracking-[0.3em] text-lavender uppercase">Investition</span>
+    </div>
+
+    <h2 class="reveal text-center font-black text-4xl md:text-6xl lg:text-7xl tracking-tight mb-6 leading-[1]">
+      Ein Sprint.<br/><span class="text-gradient">Ein Preis.</span>
+    </h2>
+
+    <p class="reveal text-center text-lg text-white/60 mb-12 max-w-2xl mx-auto">
+      Keine Upsells. Keine Module. Kein Bullshit. Du zahlst einmal — und bekommst den kompletten Sprint.
+    </p>
+
+    <!-- Pricing card -->
+    <div class="reveal pricing-card rounded-3xl px-8 md:px-12 pt-14 md:pt-16 pb-8 md:pb-12 mt-6 relative">
+      <!-- Badge -->
+      <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+        <div class="whitespace-nowrap px-4 py-2 rounded-full bg-lavender text-bg text-xs font-bold tracking-wider uppercase animate-glow shadow-lg shadow-lavender/30">
+          Limitiert · 6 Plätze
+        </div>
+      </div>
+
+      <div class="text-center mb-8">
+        <div class="text-sm uppercase tracking-[0.3em] text-lavender-light mb-3">Claude Startup Sprint</div>
+        <div class="flex items-baseline justify-center gap-2 mb-4">
+          <span class="text-6xl md:text-8xl font-black tracking-tight">4.900</span>
+          <span class="text-3xl font-bold text-white/60">€</span>
+        </div>
+        <div class="text-white/50">oder <span class="text-lavender-light font-semibold">4× 1.225 €</span> in Raten</div>
+      </div>
+
+      <!-- Includes -->
+      <div class="grid sm:grid-cols-2 gap-3 mb-10 max-w-xl mx-auto">
+        <div class="flex items-center gap-3 text-white/80"><span class="text-lavender flex-shrink-0">✓</span> 90-Min Live-Setup</div>
+        <div class="flex items-center gap-3 text-white/80"><span class="text-lavender flex-shrink-0">✓</span> 4 Live-Calls (je 60 Min)</div>
+        <div class="flex items-center gap-3 text-white/80"><span class="text-lavender flex-shrink-0">✓</span> WhatsApp-Direktdraht</div>
+        <div class="flex items-center gap-3 text-white/80"><span class="text-lavender flex-shrink-0">✓</span> Alle Workflows zum Behalten</div>
+        <div class="flex items-center gap-3 text-white/80"><span class="text-lavender flex-shrink-0">✓</span> Skills & Templates</div>
+        <div class="flex items-center gap-3 text-white/80"><span class="text-lavender flex-shrink-0">✓</span> Team-Rollout-Plan</div>
+      </div>
+
+      <!-- CTA -->
+      <a href="mailto:hello@example.com?subject=Claude%20Startup%20Sprint%20-%20Platz%20sichern" class="btn-primary group w-full inline-flex items-center justify-center gap-2 px-8 py-5 rounded-full text-bg font-bold text-lg mb-6">
+        Platz sichern
+        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+      </a>
+
+      <!-- Risk reversal -->
+      <div class="border-t border-lavender/20 pt-6">
+        <div class="flex items-start gap-4 max-w-xl mx-auto">
+          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-lavender/10 border border-lavender/30 flex items-center justify-center">
+            <svg class="w-6 h-6 text-lavender" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-bold mb-1 text-lavender-light">14 Tage Geld-zurück-Garantie</div>
+            <p class="text-sm text-white/60 leading-relaxed">
+              Wenn du nach den ersten zwei Wochen nicht überzeugt bist — Geld zurück. Ohne Diskussion. Ohne Wenn und Aber. Das Risiko trage ich.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== FAQ =========================== -->
+<section class="relative py-24 md:py-32 px-5 md:px-10 bg-surface border-y border-line">
+  <div class="max-w-3xl mx-auto">
+    <div class="reveal text-center mb-4">
+      <span class="text-xs font-bold tracking-[0.3em] text-lavender uppercase">Was du noch fragst</span>
+    </div>
+
+    <h2 class="reveal text-center font-black text-4xl md:text-6xl tracking-tight mb-16 leading-[1]">
+      Die fünf Fragen,<br/><span class="text-gradient">die jeder stellt.</span>
+    </h2>
+
+    <div class="space-y-4">
+      <details class="reveal group border border-line rounded-2xl bg-bg/40 hover:border-lavender/40 transition-colors">
+        <summary class="flex items-center justify-between gap-4 p-6 md:p-8">
+          <span class="text-lg md:text-xl font-bold pr-4">Ich hab eigentlich keine Zeit. Lohnt sich das?</span>
+          <span class="faq-icon flex-shrink-0 w-10 h-10 rounded-full border border-lavender/30 text-lavender flex items-center justify-center text-xl font-light">+</span>
+        </summary>
+        <div class="px-6 md:px-8 pb-6 md:pb-8 text-white/70 leading-relaxed">
+          Du investierst 4 Wochen je ca. 3 Stunden. Die meisten Teilnehmer holen sich diese Zeit in den ersten 14 Tagen über die neuen Workflows zurück. Wenn du keine 3 Stunden pro Woche hast, um dein Unternehmen produktiver zu machen — dann ist Zeit nicht dein Problem, sondern Priorisierung.
+        </div>
+      </details>
+
+      <details class="reveal group border border-line rounded-2xl bg-bg/40 hover:border-lavender/40 transition-colors">
+        <summary class="flex items-center justify-between gap-4 p-6 md:p-8">
+          <span class="text-lg md:text-xl font-bold pr-4">Ich bin technisch nicht versiert. Komme ich da überhaupt mit?</span>
+          <span class="faq-icon flex-shrink-0 w-10 h-10 rounded-full border border-lavender/30 text-lavender flex items-center justify-center text-xl font-light">+</span>
+        </summary>
+        <div class="px-6 md:px-8 pb-6 md:pb-8 text-white/70 leading-relaxed">
+          Genau dafür ist der Sprint da. Die Zielgruppe sind Unternehmer und Entscheider — keine Entwickler. Wir starten beim Setup. Du brauchst keinen Code, keine API-Kenntnisse, kein Vorwissen. Nur die Bereitschaft, die Sache wirklich anzugehen.
+        </div>
+      </details>
+
+      <details class="reveal group border border-line rounded-2xl bg-bg/40 hover:border-lavender/40 transition-colors">
+        <summary class="flex items-center justify-between gap-4 p-6 md:p-8">
+          <span class="text-lg md:text-xl font-bold pr-4">Warum Claude und nicht ChatGPT?</span>
+          <span class="faq-icon flex-shrink-0 w-10 h-10 rounded-full border border-lavender/30 text-lavender flex items-center justify-center text-xl font-light">+</span>
+        </summary>
+        <div class="px-6 md:px-8 pb-6 md:pb-8 text-white/70 leading-relaxed">
+          Claude ist im Geschäftskontext — lange Texte, Code, Analyse, Agenten — aktuell die stärkste Wahl. Projects, MCP, Skills, das Artifact-System: Es gibt für seriöse Unternehmensarbeit kaum etwas Besseres. Wenn du beides nutzen willst — auch okay. Aber im Sprint geht's um den Hebel, der dich am weitesten bringt.
+        </div>
+      </details>
+
+      <details class="reveal group border border-line rounded-2xl bg-bg/40 hover:border-lavender/40 transition-colors">
+        <summary class="flex items-center justify-between gap-4 p-6 md:p-8">
+          <span class="text-lg md:text-xl font-bold pr-4">Was passiert nach den 30 Tagen?</span>
+          <span class="faq-icon flex-shrink-0 w-10 h-10 rounded-full border border-lavender/30 text-lavender flex items-center justify-center text-xl font-light">+</span>
+        </summary>
+        <div class="px-6 md:px-8 pb-6 md:pb-8 text-white/70 leading-relaxed">
+          Du bist fit. Du kennst die Tools, hast deine Workflows, dein Team läuft. Die WhatsApp-Gruppe bleibt — als Community ehemaliger Sprint-Teilnehmer. Optional gibt's danach eine günstige Monats-Begleitung, aber niemand muss. Ziel ist: Du brauchst mich nicht mehr.
+        </div>
+      </details>
+
+      <details class="reveal group border border-line rounded-2xl bg-bg/40 hover:border-lavender/40 transition-colors">
+        <summary class="flex items-center justify-between gap-4 p-6 md:p-8">
+          <span class="text-lg md:text-xl font-bold pr-4">4.900 € klingt nach viel. Warum so teuer?</span>
+          <span class="faq-icon flex-shrink-0 w-10 h-10 rounded-full border border-lavender/30 text-lavender flex items-center justify-center text-xl font-light">+</span>
+        </summary>
+        <div class="px-6 md:px-8 pb-6 md:pb-8 text-white/70 leading-relaxed">
+          Weil's 1:1 ist. Sechs Plätze pro Sprint, persönliche Calls, WhatsApp-Direktdraht, Workflows die ich mit dir baue. Das ist kein Online-Kurs für 297 €. Wenn ein Teilnehmer im Schnitt 5–10 Stunden pro Woche spart — refinanziert sich der Sprint in 1–2 Monaten. Wenn nicht: 14 Tage Geld zurück.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== FINAL CTA =========================== -->
+<section class="relative py-24 md:py-40 px-5 md:px-10 overflow-hidden gradient-bg">
+  <div class="grid-pattern absolute inset-0"></div>
+  <div class="blob bg-lavender w-[700px] h-[700px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30"></div>
+
+  <div class="max-w-4xl mx-auto relative text-center">
+    <div class="reveal inline-flex items-center gap-3 px-4 py-2 rounded-full border border-lavender/30 bg-lavender/5 backdrop-blur-sm mb-8">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-lavender opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-lavender"></span>
+      </span>
+      <span class="text-sm text-lavender-light font-medium tracking-wide">Nur noch wenige Plätze</span>
+    </div>
+
+    <h2 class="reveal font-black text-5xl md:text-7xl lg:text-8xl tracking-tight mb-8 leading-[0.95]">
+      In 30 Tagen bist du<br/>
+      <span class="text-gradient text-glow glitch" data-text="der Claude-Profi">der Claude-Profi</span><br/>
+      <span class="text-white/40">in deinem Unternehmen.</span>
+    </h2>
+
+    <p class="reveal text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-12 leading-relaxed">
+      Oder du machst weiter wie bisher — und schaust zu, wie die Konkurrenz es richtig anstellt.
+    </p>
+
+    <div class="reveal flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a href="mailto:hello@example.com?subject=Claude%20Startup%20Sprint%20-%20Platz%20sichern" class="btn-primary group inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full text-bg font-bold text-lg w-full sm:w-auto">
+        Ja, ich will den Sprint
+        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+      </a>
+    </div>
+
+    <p class="reveal text-sm text-white/40 mt-8">
+      14 Tage Geld-zurück · Ratenzahlung möglich · 6 Plätze pro Sprint
+    </p>
+  </div>
+</section>
+
+<!-- =========================== FOOTER =========================== -->
+<footer class="border-t border-line py-10 px-5 md:px-10">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <div class="w-2 h-2 rounded-full bg-lavender"></div>
+      <span class="text-sm text-white/60">Claude Startup Sprint</span>
+    </div>
+    <div class="flex gap-6 text-sm text-white/40">
+      <a href="#" class="hover:text-lavender transition-colors">Impressum</a>
+      <a href="#" class="hover:text-lavender transition-colors">Datenschutz</a>
+      <a href="mailto:hello@example.com" class="hover:text-lavender transition-colors">Kontakt</a>
+    </div>
+  </div>
+</footer>
+
+<!-- =========================== STICKY CTA =========================== -->
+<div id="stickyCta" class="sticky-cta fixed bottom-4 left-4 right-4 md:bottom-6 md:left-1/2 md:right-auto md:-translate-x-1/2 z-40 opacity-0 translate-y-20 pointer-events-none">
+  <a href="#pricing" class="btn-primary inline-flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3.5 rounded-full text-bg font-bold text-sm md:text-base shadow-2xl">
+    <span class="hidden md:inline">Claude Startup Sprint —</span> Platz sichern →
+  </a>
+</div>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Sticky CTA toggle
+  const stickyCta = document.getElementById('stickyCta');
+  const pricing = document.getElementById('pricing');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const showAfter = window.innerHeight * 1.2;
+    const pricingTop = pricing.getBoundingClientRect().top + window.scrollY;
+    const pricingBottom = pricingTop + pricing.offsetHeight;
+
+    const inPricing = scrollY + window.innerHeight > pricingTop && scrollY < pricingBottom;
+
+    if (scrollY > showAfter && !inPricing) {
+      stickyCta.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+      stickyCta.classList.add('opacity-100', 'translate-y-0');
+    } else {
+      stickyCta.classList.add('opacity-0', 'translate-y-20', 'pointer-events-none');
+      stickyCta.classList.remove('opacity-100', 'translate-y-0');
+    }
+  });
+</script>
+
+</body>
+</html>
