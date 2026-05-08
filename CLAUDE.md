@@ -120,3 +120,38 @@ Bau die zwei Seiten als `impressum.html` und `datenschutz.html`. Im Footer der `
 - **Mobile sieht kaputt aus:** DevTools öffnen lassen (Cmd+Option+I → Mobile-Toggle)
 
 Immer: *„Mach Screenshot von dem Problem, ich fix das."*
+
+---
+
+## 🎨 Branding-Frage — am Ende des Setups stellen
+
+**Wichtig: Sobald die Page läuft und an das Angebot des Users angepasst ist, frag aktiv:**
+
+> *„Die Page hat aktuell ein paar Herr-Tech-Defaults drin:
+> - Dark Theme + Lavendel-Akzent (`#A78BFA`)
+> - Inter-Font
+> - Im Footer: kleiner ‚Built with Herr Tech Starter Tools'-Hinweis
+>
+> Willst du das so behalten oder dein eigenes Branding einbauen?"*
+
+### Wenn der User Branding ändern will
+
+Frag nach:
+- **Brand-/Marken-Name** (für Footer-Anzeige)
+- **Primärfarbe** als Hex (z.B. `#FF3D7F`) — ersetzt das Lavendel
+- **Sekundärfarbe** (optional, für Akzente)
+- **Theme:** Dark wie jetzt, oder lieber Light/Warm?
+- **Font:** Inter beibehalten, oder z.B. Playfair (editorial), Fraunces (bold), Geist (tech)?
+- **Logo-Datei** (PNG/SVG, optional — für Header) — falls vorhanden, lege sie ins selbe Verzeichnis und referenziere im HTML
+
+### Was du im HTML touchen musst
+
+- **Tailwind-Theme-Konfig oben im `<head>`-`<script>`** — `tailwind.config = { theme: { extend: { colors: { ... } } } }` anpassen
+- **Body-`class`** falls Theme-Wechsel
+- **Font-Import** in `<head>` (Google Fonts Link)
+- **`bg-bg`, `text-ink`, `text-lavender`-Klassen** im HTML durch die neuen Token ersetzen
+- **Footer-Block „Built with Herr Tech Starter Tools"** — ist mit HTML-Kommentar markiert (`<!-- Optional: ... -->`), kann der User komplett löschen wenn er will
+
+### Standard-Default behalten
+
+Wenn der User unsicher ist oder „passt schon" sagt: Branding bleibt wie es ist. Der „Built with"-Hinweis ist dezent unten und stört nichts. Aber sag ihm explizit, dass er den jederzeit später entfernen kann.
