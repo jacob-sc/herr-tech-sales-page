@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# Falls du das Tool später mit einem Build erweiterst — kein Eintrag,
+# weil Sales-Page als Single-File HTML gedacht ist.
